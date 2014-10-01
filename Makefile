@@ -6,13 +6,14 @@ APP_NAME=emysql
 MODULES=$(shell ls -1 src/*.erl | awk -F[/.] '{ print $$2 }' | sed '$$q;s/$$/,/g')
 MAKETIME=$(shell date)
 
-all: crypto_compat app
+all: compat app
 	(cd src;$(MAKE))
 
 app: ebin/$(PKGNAME).app
 
-crypto_compat:
+compat:
 	(escript support/crypto_compat.escript)
+	(escript support/type_compat.escript)
 
 ebin/$(PKGNAME).app: src/$(PKGNAME).app.src
 	mkdir -p ebin
@@ -55,6 +56,7 @@ clean:
 	rm -f *.beam
 	rm -f *.html
 	rm -f include/crypto_compat.hrl
+	rm -f include/type_compat.hrl
 	rm -fr logs
 
 package: clean
