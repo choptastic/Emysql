@@ -24,7 +24,7 @@
 %% WHETHER IN AN ACTION OF CONTRACT,  TORT  OR OTHERWISE,  ARISING
 %% FROM,  OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
-
+-include("type_compat.hrl").
 
 -record(pool, {pool_id :: atom(), 
 	       size :: number(), 
@@ -34,9 +34,9 @@
 	       port :: number(), 
 	       database :: string(), 
 	       encoding :: utf8 | latin1 | {utf8, utf8_unicode_ci} | {utf8, utf8_general_ci},
-	       available=queue:new() :: queue(), 
-	       locked=gb_trees:empty() :: gb_tree(), 
-	       waiting=queue:new() :: queue(), 
+	       available=queue:new() :: emysql_queue(), 
+	       locked=gb_trees:empty() :: emysql_gb_tree(), 
+	       waiting=queue:new() :: emysql_queue(), 
 	       start_cmds=[] :: string(), 
 	       conn_test_period=0 :: number(), 
 	       connect_timeout=infinity :: number() | infinity,
